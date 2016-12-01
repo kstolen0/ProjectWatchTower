@@ -10,6 +10,71 @@ local widget = require("widget")
 local good = 0
 local bad = 0
 local myData
+local faceGood
+local faceBad
+local faceEmote
+
+function UpdateFace(val)
+
+	local alph = math.floor(val)/100
+	local temp = ""
+	print('---')
+	print(alph)
+	print('---')
+	faceGood.alpha = 0.0
+	faceBad.alpha = 0.0
+	if val < 0 then
+		faceBad.alpha = -alph
+	else
+		 faceGood.alpha = alph
+	end
+
+	if val <= -90 then
+			temp = "-100"
+	elseif val <= -85 then
+		temp = "-90"
+	elseif val <= -75 then
+		temp = "-85"
+	elseif val <= -65 then
+		temp = "-75"
+	elseif val <= -50 then
+		temp = "-65"
+	elseif val <= -35 then
+		temp = "-50"
+	elseif val <= -25 then
+		temp = "-35"
+	elseif val <= -10 then
+		temp = "-25"
+	elseif val < 0 then
+		temp = "-10"
+	elseif val == 0 then
+		temp = "0"
+	elseif val >= 90 then
+		temp = "100"
+	elseif val >= 85 then
+		temp = "90"
+	elseif val >= 75 then
+		temp = "85"
+	elseif val >= 65 then
+		temp = "75"
+	elseif val >= 50 then
+		temp = "65"
+	elseif val >= 35 then
+		temp = "50"
+	elseif val >= 25 then
+		temp = "35"
+	elseif val >= 10 then
+		temp = "25"
+	else
+		temp = "10"
+	end
+
+	faceEmote:removeSelf()
+	faceEmote = nil
+	faceEmote = display.newImage(imgDir..temp..".png",display.contentCenterX,140)
+
+
+end
 
 function NormalizeData()
 
@@ -22,10 +87,12 @@ function NormalizeData()
 	local nBad = bad / total * 100
 	nBad = math.round(nBad*100)*0.01
 
-
-	return nGood - nBad
+	local val = nGood - nBad
+	UpdateFace(val)
+	return val
 
 end
+
 
 function GoUp(event)
 
@@ -85,7 +152,12 @@ function scene:create( event )
 	-- create some text
 	local title = display.newText( "app name", display.contentCenterX, 25, native.systemFont, 32 )
 	title:setFillColor( 1 )
-	local face = display.newImage(imgDir.."placeholder.png",display.contentCenterX,130)
+	local face = display.newImage(imgDir.."headBase.png",display.contentCenterX,130)
+	faceGood = display.newImage(imgDir.."headGood.png",display.contentCenterX,130)
+	faceGood.alpha = 0.0
+	faceBad = display.newImage(imgDir.."headBad.png",display.contentCenterX,130)
+	faceBad.alpha = 0.0
+	faceEmote = display.newImage(imgDir.."0.png",display.contentCenterX,140)
 	myData = display.newText(tostring(NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
 
 
@@ -93,8 +165,12 @@ function scene:create( event )
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
 	sceneGroup:insert( face )
+	sceneGroup:insert( faceGood )
+	sceneGroup:insert( faceBad )
 	sceneGroup:insert( myData )
 	sceneGroup:insert( GoodBtn )
+	sceneGroup:insert( BadBtn )
+	sceneGroup:insert( faceEmote )
 
 end
 

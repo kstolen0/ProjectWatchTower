@@ -15,11 +15,17 @@ imgDir = "Images/" -- Prep the imageDirectory
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
-	composer.gotoScene( "view1" )
+	local options = {
+		effect = "slideRight",
+	}
+	composer.gotoScene( "view1",options )
 end
 
 local function onSecondView( event )
-	composer.gotoScene( "view2" )
+	local options = {
+		effect = "slideLeft"
+	}
+	composer.gotoScene( "view2",options)
 end
 
 
@@ -28,7 +34,7 @@ end
 -- table to setup buttons
 local tabButtons = {
 	{ label="home", defaultFile="icon1.png", overFile="icon1-down.png", width = 32, height = 32, onPress=onFirstView, selected=true },
-	{ label="graph", defaultFile="icon2.png", overFile="icon2-down.png", width = 32, height = 32, onPress=onSecondView },
+	{ label="data", defaultFile="icon2.png", overFile="icon2-down.png", width = 32, height = 32, onPress=onSecondView },
 }
 
 -- create the actual tabBar widget
