@@ -6,7 +6,6 @@
 
 -- show default status bar (iOS)
 display.setStatusBar( display.DefaultStatusBar )
-
 -- include Corona's "widget" library
 local widget = require "widget"
 local composer = require "composer"
@@ -16,14 +15,15 @@ imgDir = "Images/" -- Prep the imageDirectory
 -- event listeners for tab buttons:
 local function onFirstView( event )
 	local options = {
-		effect = "slideRight",
+		effect = "slideRight",		
 	}
+	print(tabBar)
 	composer.gotoScene( "view1",options )
 end
 
 local function onSecondView( event )
 	local options = {
-		effect = "slideLeft"
+		effect = "slideLeft",
 	}
 	composer.gotoScene( "view2",options)
 end
@@ -42,5 +42,5 @@ local tabBar = widget.newTabBar{
 	top = display.contentHeight - 50,	-- 50 is default height for tabBar widget
 	buttons = tabButtons
 }
-
+composer.setVariable("tBar",tabBar)
 onFirstView()	-- invoke first tab button's onPress event manually

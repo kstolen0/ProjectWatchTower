@@ -6,58 +6,91 @@
 
 local composer = require( "composer" )
 local scene = composer.newScene()
+local lblGoodVal
+local lblBadVal
+local lblTotalVal
 
 function scene:create( event )
 	local sceneGroup = self.view
-	
-	-- Called when the scene's view does not exist.
-	-- 
-	-- INSERT code here to initialize the scene
-	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
-	
-	-- create a white background to fill screen
-	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 1 )	-- white
-	
-	-- create some text
-	local title = display.newText( "Second View", display.contentCenterX, 125, native.systemFont, 32 )
-	title:setFillColor( 0 )	-- black
 
-	local newTextParams = { text = "Loaded by the second tab's\n\"onPress\" listener\nspecified in the 'tabButtons' table", 
-							x = display.contentCenterX + 10, 
-							y = title.y + 215, 
-							width = 310, 
-							height = 310, 
-							font = native.systemFont, 
-							fontSize = 14, 
-							align = "center" }
-	local summary = display.newText( newTextParams )
-	summary:setFillColor( 0 ) -- black
-	
+	-- create a dark background to fill screen
+	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+	background:setFillColor( 0.15 )	-- dark
+
+	local lblGood = display.newText("good choices",55,25,native.systemFont,16)
+	local goodVal = tostring(composer.getVariable("good"))
+	lblGoodVal = display.newText(goodVal, display.contentWidth - 30, 25, native.systemFont, 16)
+
+	local h1 = display.newRect( display.contentCenterX+5, 45, display.contentWidth-10,3)
+	h1:setFillColor(0.95)
+
+	local lblBad = display.newText("bad choices", 52, 65, native.systemFont,16)
+	local badVal = tostring(composer.getVariable("bad"))
+	lblBadVal = display.newText(badVal,display.contentWidth - 20, 65, native.systemFont, 16)
+
+	local h2 = display.newRect( display.contentCenterX+5, 85, display.contentWidth-10,3)
+	h2:setFillColor(0.95)
+
+	local lblTotal = display.newText("total choices", 55, 105, native.systemFont,16)
+	lblTotalVal = display.newText("110",display.contentWidth - 20,105,native.systemFont,16)
+
+	local h3 = display.newRect( display.contentCenterX+5, 125, display.contentWidth-10,3)
+	h3:setFillColor(0.95)
+
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )
-	sceneGroup:insert( title )
-	sceneGroup:insert( summary )
+	sceneGroup:insert( lblGood )
+	sceneGroup:insert( lblGoodVal )
+	sceneGroup:insert( lblBad )
+	sceneGroup:insert( lblBadVal )
+	sceneGroup:insert( lblTotal )
+	sceneGroup:insert( lblTotalVal )
+	sceneGroup:insert( h1 )
+	sceneGroup:insert( h2 )
+	sceneGroup:insert( h3 )
+
 end
 
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
+
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
+		composer.getVariable("tBar"):setSelected(2)
+		lblGoodVal.text = tostring(composer.getVariable("good"))
+			if #lblGoodVal.text > 3 then
+				lblGoodVal.x = display.contentWidth - ((#lblGoodVal)*10) - 20
+			else
+				lblGoodVal.x = display.contentWidth - 20
+			end
+
+		lblBadVal.text = tostring(composer.getVariable("bad"))
+		if #lblBadVal.text > 3 then
+			lblBadVal.x = display.contentWidth - ((#lblBadVal)*10) - 20
+		else
+			lblBadVal.x = display.contentWidth - 20
+		end
+
+		lblTotalVal.text = tostring(composer.getVariable("good") + composer.getVariable("bad"))
+		if #lblTotalVal.text > 3 then
+			lblTotalVal.x = display.contentWidth - ((#lblTotalVal)*10) - 20
+		else
+			lblTotalVal.x = display.contentWidth - 20
+		end
+
 	elseif phase == "did" then
 		-- Called when the scene is now on screen
-		-- 
+		--
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
-	end	
+	end
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
+
 	if event.phase == "will" then
 		-- Called when the scene is on screen and is about to move off screen
 		--
@@ -70,11 +103,23 @@ end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	
+
 	-- Called prior to the removal of scene's "view" (sceneGroup)
-	-- 
+	--
 	-- INSERT code here to cleanup the scene
 	-- e.g. remove display objects, remove touch listeners, save state, etc.
+end
+
+function scTouch( event )
+
+	if event.phase == "moved" then
+		if event.x - event.xStart > 50 then
+			local options = {
+				effect = "slideRight"
+			}
+			composer.gotoScene( "view1",options)
+		end
+	end
 end
 
 ---------------------------------------------------------------------------------
@@ -84,7 +129,7 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
+Runtime:addEventListener("touch", scTouch )
 -----------------------------------------------------------------------------------------
 
 return scene

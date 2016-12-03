@@ -7,8 +7,8 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
-local good = 0
-local bad = 0
+local good = 6
+local bad = 9990
 local myData
 local faceGood
 local faceBad
@@ -72,7 +72,7 @@ function UpdateFace(val)
 	faceEmote:removeSelf()
 	faceEmote = nil
 	faceEmote = display.newImage(imgDir..temp..".png",display.contentCenterX,140)
-
+	scene.view:insert(faceEmote)
 
 end
 
@@ -100,6 +100,7 @@ function GoUp(event)
 	good = good + 1
 	print(good)
 	myData.text = tostring(NormalizeData())
+	composer.setVariable("good",good)
 	end
 end
 
@@ -109,6 +110,7 @@ function GoDown(event)
 		bad = bad + 1
 		print(bad)
 		myData.text = tostring(NormalizeData())
+		composer.setVariable("bad",bad)
 	end
 
 end
@@ -139,13 +141,15 @@ local GoodBtn = widget.newButton {
 
 function scene:create( event )
 	local sceneGroup = self.view
+	composer.setVariable("good",good)
+	composer.setVariable("bad",bad)
 
 	-- Called when the scene's view does not exist.
 	--
 	-- INSERT code here to initialize the scene
 	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
 
-	-- create a white background to fill screen
+	-- create a dark background to fill screen
 	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
 	background:setFillColor( 0.15 )
 
@@ -180,6 +184,7 @@ function scene:show( event )
 
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
+		composer.getVariable("tBar"):setSelected(1)
 	elseif phase == "did" then
 		-- Called when the scene is now on screen
 		--
@@ -211,6 +216,17 @@ function scene:destroy( event )
 	-- e.g. remove display objects, remove touch listeners, save state, etc.
 end
 
+function scTouch( event )
+
+	if event.phase == "moved" then
+		if event.x - event.xStart < -50 then
+			local options = {
+				effect = "slideLeft"
+			}
+			composer.gotoScene( "view2",options)
+		end
+	end
+end
 ---------------------------------------------------------------------------------
 
 -- Listener setup
@@ -218,7 +234,7 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
+Runtime:addEventListener("touch", scTouch )
 -----------------------------------------------------------------------------------------
 
 return scene
