@@ -9,15 +9,58 @@ display.setStatusBar( display.DefaultStatusBar )
 -- include Corona's "widget" library
 local widget = require "widget"
 local composer = require "composer"
+local loadsave = require("loadsave")
 imgDir = "Images/" -- Prep the imageDirectory
+local myData = loadsave.loadTable("data.json",system.DocumentsDirectory)
+print(os.date("*t").yday)
+---[[
 
+local function ShiftDays(d)
+	local diff = os.date("*t").yday - d.lastEntry
+	if diff > 0 then
+		print("different day: ".. tostring(diff))
+		for i = 1, diff do
+			myData.days[7] = myData.days[6]
+			myData.days[6] = myData.days[5]
+			myData.days[5] = myData.days[4]
+			myData.days[4] = myData.days[3]
+			myData.days[3] = myData.days[2]
+			myData.days[2] = myData.days[1]
+			myData.days[1] = {0,0}
+		end
+	else
+		print("same day: "..tostring(diff))
+	end
+end
+
+if myData == nil then
+
+	myData = {
+		good = 0,
+		bad = 0,
+		days = {
+			{0,0},
+			{0,0},
+			{0,0},
+			{0,0},
+			{0,0},
+			{0,0},
+			{0,0},
+		},
+		lastEntry = os.date("*t").yday,
+	}
+
+	loadsave.saveTable(myData,"data.json",system.documentDirectory)
+else
+	ShiftDays(myData)
+end--]]
+composer.setVariable("myData",myData)
 
 -- event listeners for tab buttons:
 local function onFirstView( event )
 	local options = {
-		effect = "slideRight",		
+		effect = "slideRight",
 	}
-	print(tabBar)
 	composer.gotoScene( "view1",options )
 end
 

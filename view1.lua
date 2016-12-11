@@ -7,20 +7,17 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
-local good = 6
-local bad = 9990
-local myData
+local loadsave = require("loadsave")
+local strData
 local faceGood
 local faceBad
 local faceEmote
+local myData = composer.getVariable("myData")
 
 function UpdateFace(val)
 
 	local alph = math.floor(val)/100
 	local temp = ""
-	print('---')
-	print(alph)
-	print('---')
 	faceGood.alpha = 0.0
 	faceBad.alpha = 0.0
 	if val < 0 then
@@ -76,17 +73,36 @@ function UpdateFace(val)
 
 end
 
+local function GetData()
+	local temp = myData.days
+	local good = 0
+	local bad = 0
+
+	for i,v in ipairs(temp) do
+		good = good + v[1]
+		bad = bad + v[2]
+		print(unpack(v))
+	end
+	print("-----")
+
+	return good, bad
+end
+
 function NormalizeData()
 
-	local total = good + bad
+	local good
+	local bad
+	good, bad = GetData()
+	total = good - bad
 	if total == 0 then
+		UpdateFace(0)
 		return 0
 	end
+	total = good + bad
 	local nGood = good / total * 100
 	nGood = math.round(nGood*100)*0.01
 	local nBad = bad / total * 100
 	nBad = math.round(nBad*100)*0.01
-
 	local val = nGood - nBad
 	UpdateFace(val)
 	return val
@@ -97,20 +113,25 @@ end
 function GoUp(event)
 
 	if event.phase == "ended" then
-	good = good + 1
-	print(good)
-	myData.text = tostring(NormalizeData())
-	composer.setVariable("good",good)
+	myData.good = myData.good + 1
+	print(myData.good)
+	myData.days[1][1] = myData.days[1][1] + 1
+	strData.text = tostring(NormalizeData())
+	myData.lastEntry = os.date("*t").yday
+	loadsave.saveTable(myData,"data.json",system.documentDirectory)
+
 	end
 end
 
 function GoDown(event)
 
 	if event.phase == "ended" then
-		bad = bad + 1
-		print(bad)
-		myData.text = tostring(NormalizeData())
-		composer.setVariable("bad",bad)
+		myData.bad = myData.bad + 1
+		print(myData.bad)
+		myData.days[1][2] = myData.days[1][2] + 1
+		strData.text = tostring(NormalizeData())
+		myData.lastEntry = os.date("*t").yday
+		loadsave.saveTable(myData,"data.json",system.documentDirectory)
 	end
 
 end
@@ -162,7 +183,7 @@ function scene:create( event )
 	faceBad = display.newImage(imgDir.."headBad.png",display.contentCenterX,130)
 	faceBad.alpha = 0.0
 	faceEmote = display.newImage(imgDir.."0.png",display.contentCenterX,140)
-	myData = display.newText(tostring(NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
+	strData = display.newText(tostring(NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
 
 
 	-- all objects must be added to group (e.g. self.view)
@@ -171,7 +192,7 @@ function scene:create( event )
 	sceneGroup:insert( face )
 	sceneGroup:insert( faceGood )
 	sceneGroup:insert( faceBad )
-	sceneGroup:insert( myData )
+	sceneGroup:insert( strData )
 	sceneGroup:insert( GoodBtn )
 	sceneGroup:insert( BadBtn )
 	sceneGroup:insert( faceEmote )

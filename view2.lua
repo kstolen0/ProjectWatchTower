@@ -9,6 +9,7 @@ local scene = composer.newScene()
 local lblGoodVal
 local lblBadVal
 local lblTotalVal
+local myData = composer.getVariable("myData")
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -18,21 +19,21 @@ function scene:create( event )
 	background:setFillColor( 0.15 )	-- dark
 
 	local lblGood = display.newText("good choices",55,25,native.systemFont,16)
-	local goodVal = tostring(composer.getVariable("good"))
+	local goodVal = tostring(myData.good)
 	lblGoodVal = display.newText(goodVal, display.contentWidth - 30, 25, native.systemFont, 16)
 
 	local h1 = display.newRect( display.contentCenterX+5, 45, display.contentWidth-10,3)
 	h1:setFillColor(0.95)
 
 	local lblBad = display.newText("bad choices", 52, 65, native.systemFont,16)
-	local badVal = tostring(composer.getVariable("bad"))
+	local badVal = tostring(myData.bad)
 	lblBadVal = display.newText(badVal,display.contentWidth - 20, 65, native.systemFont, 16)
 
 	local h2 = display.newRect( display.contentCenterX+5, 85, display.contentWidth-10,3)
 	h2:setFillColor(0.95)
 
 	local lblTotal = display.newText("total choices", 55, 105, native.systemFont,16)
-	lblTotalVal = display.newText("110",display.contentWidth - 20,105,native.systemFont,16)
+	lblTotalVal = display.newText("000",display.contentWidth - 20,105,native.systemFont,16)
 
 	local h3 = display.newRect( display.contentCenterX+5, 125, display.contentWidth-10,3)
 	h3:setFillColor(0.95)
@@ -58,21 +59,21 @@ function scene:show( event )
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
 		composer.getVariable("tBar"):setSelected(2)
-		lblGoodVal.text = tostring(composer.getVariable("good"))
+		lblGoodVal.text = tostring(myData.good)
 			if #lblGoodVal.text > 3 then
 				lblGoodVal.x = display.contentWidth - ((#lblGoodVal)*10) - 20
 			else
 				lblGoodVal.x = display.contentWidth - 20
 			end
 
-		lblBadVal.text = tostring(composer.getVariable("bad"))
+		lblBadVal.text = tostring(myData.bad)
 		if #lblBadVal.text > 3 then
 			lblBadVal.x = display.contentWidth - ((#lblBadVal)*10) - 20
 		else
 			lblBadVal.x = display.contentWidth - 20
 		end
 
-		lblTotalVal.text = tostring(composer.getVariable("good") + composer.getVariable("bad"))
+		lblTotalVal.text = tostring(myData.good + myData.bad)
 		if #lblTotalVal.text > 3 then
 			lblTotalVal.x = display.contentWidth - ((#lblTotalVal)*10) - 20
 		else
