@@ -12,7 +12,7 @@ local strData
 local faceGood
 local faceBad
 local faceEmote
-local myData = composer.getVariable("myData")
+local myData = require("MyData")
 
 function UpdateFace(val)
 
@@ -73,65 +73,24 @@ function UpdateFace(val)
 
 end
 
-local function GetData()
-	local temp = myData.days
-	local good = 0
-	local bad = 0
-
-	for i,v in ipairs(temp) do
-		good = good + v[1]
-		bad = bad + v[2]
-		print(unpack(v))
-	end
-	print("-----")
-
-	return good, bad
-end
-
-function NormalizeData()
-
-	local good
-	local bad
-	good, bad = GetData()
-	total = good - bad
-	if total == 0 then
-		UpdateFace(0)
-		return 0
-	end
-	total = good + bad
-	local nGood = good / total * 100
-	nGood = math.round(nGood*100)*0.01
-	local nBad = bad / total * 100
-	nBad = math.round(nBad*100)*0.01
-	local val = nGood - nBad
-	UpdateFace(val)
-	return val
-
-end
-
 
 function GoUp(event)
 
 	if event.phase == "ended" then
-	myData.good = myData.good + 1
-	print(myData.good)
-	myData.days[1][1] = myData.days[1][1] + 1
-	strData.text = tostring(NormalizeData())
-	myData.lastEntry = os.date("*t").yday
-	loadsave.saveTable(myData,"data.json",system.documentDirectory)
-
-	end
+	myData:GoUp()
+	local temp = myData:NormalizeData()
+	UpdateFace(temp)
+	strData.text = tostring(temp)
+ end
 end
 
 function GoDown(event)
 
 	if event.phase == "ended" then
-		myData.bad = myData.bad + 1
-		print(myData.bad)
-		myData.days[1][2] = myData.days[1][2] + 1
-		strData.text = tostring(NormalizeData())
-		myData.lastEntry = os.date("*t").yday
-		loadsave.saveTable(myData,"data.json",system.documentDirectory)
+		myData:GoDown()
+		local temp = myData:NormalizeData()
+		UpdateFace(temp)
+		strData.text = tostring(temp)
 	end
 
 end
@@ -162,8 +121,6 @@ local GoodBtn = widget.newButton {
 
 function scene:create( event )
 	local sceneGroup = self.view
-	composer.setVariable("good",good)
-	composer.setVariable("bad",bad)
 
 	-- Called when the scene's view does not exist.
 	--
@@ -183,7 +140,7 @@ function scene:create( event )
 	faceBad = display.newImage(imgDir.."headBad.png",display.contentCenterX,130)
 	faceBad.alpha = 0.0
 	faceEmote = display.newImage(imgDir.."0.png",display.contentCenterX,140)
-	strData = display.newText(tostring(NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
+	strData = display.newText(tostring(myData:NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
 
 
 	-- all objects must be added to group (e.g. self.view)

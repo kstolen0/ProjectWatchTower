@@ -9,7 +9,7 @@ local scene = composer.newScene()
 local lblGoodVal
 local lblBadVal
 local lblTotalVal
-local myData = composer.getVariable("myData")
+local myData = require("MyData")
 
 function scene:create( event )
 	local sceneGroup = self.view
@@ -19,14 +19,14 @@ function scene:create( event )
 	background:setFillColor( 0.15 )	-- dark
 
 	local lblGood = display.newText("good choices",55,25,native.systemFont,16)
-	local goodVal = tostring(myData.good)
+	local goodVal = tostring(myData.save.good)
 	lblGoodVal = display.newText(goodVal, display.contentWidth - 30, 25, native.systemFont, 16)
 
 	local h1 = display.newRect( display.contentCenterX+5, 45, display.contentWidth-10,3)
 	h1:setFillColor(0.95)
 
 	local lblBad = display.newText("bad choices", 52, 65, native.systemFont,16)
-	local badVal = tostring(myData.bad)
+	local badVal = tostring(myData.save.bad)
 	lblBadVal = display.newText(badVal,display.contentWidth - 20, 65, native.systemFont, 16)
 
 	local h2 = display.newRect( display.contentCenterX+5, 85, display.contentWidth-10,3)
@@ -59,21 +59,21 @@ function scene:show( event )
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
 		composer.getVariable("tBar"):setSelected(2)
-		lblGoodVal.text = tostring(myData.good)
+		lblGoodVal.text = tostring(myData.save.good)
 			if #lblGoodVal.text > 3 then
 				lblGoodVal.x = display.contentWidth - ((#lblGoodVal)*10) - 20
 			else
 				lblGoodVal.x = display.contentWidth - 20
 			end
 
-		lblBadVal.text = tostring(myData.bad)
+		lblBadVal.text = tostring(myData.save.bad)
 		if #lblBadVal.text > 3 then
 			lblBadVal.x = display.contentWidth - ((#lblBadVal)*10) - 20
 		else
 			lblBadVal.x = display.contentWidth - 20
 		end
 
-		lblTotalVal.text = tostring(myData.good + myData.bad)
+		lblTotalVal.text = tostring(myData.save.good + myData.save.bad)
 		if #lblTotalVal.text > 3 then
 			lblTotalVal.x = display.contentWidth - ((#lblTotalVal)*10) - 20
 		else
