@@ -4,6 +4,26 @@ local loadsave = require("loadsave")
 local myData = {}
 myData.save = loadsave.loadTable("data.json",system.DocumentsDirectory)
 
+function myData:Reset()
+
+  self.save = {
+    good = 0,
+    bad = 0,
+    days = {
+      {0,0},
+      {0,0},
+      {0,0},
+      {0,0},
+      {0,0},
+      {0,0},
+      {0,0},
+    },
+    lastEntry = os.date("*t").yday,
+  }
+
+  loadsave.saveTable(myData.save,"data.json",system.DocumentsDirectory)
+end
+
 function myData:ShiftDays()
   local diff = os.date("*t").yday - self.save.lastEntry
 	if diff > 0 then
@@ -24,30 +44,8 @@ function myData:ShiftDays()
   self.lastEntry = os.date("*t").yday
 end
 
-if myData.save == nil then
-
-	myData.save = {
-		good = 0,
-		bad = 0,
-		days = {
-			{0,0},
-			{0,0},
-			{0,0},
-			{0,0},
-			{0,0},
-			{0,0},
-			{0,0},
-		},
-		lastEntry = os.date("*t").yday,
-	}
-
-  loadsave.saveTable(myData.save,"data.json",system.DocumentsDirectory)
-else
-	myData:ShiftDays()
-end--]]
-
-
-function myData:GetData()
+--return good and bad entries from the last week
+function myData:GetWeekData()
   local temp = self.save.days
 
   local good = 0
@@ -64,11 +62,19 @@ function myData:GetData()
 
 end
 
+--  return the given days good and bad entries
+function myData:GetDayData(i)
+
+  return self.save.days[i][1], self.save.days[i][2]
+
+end
+
+
 function myData:NormalizeData()
 
   local good
   local bad
-  good, bad = self:GetData()
+  good, bad = self:GetWeekData()
   total = good - bad
   if total == 0 then
     return 0
@@ -100,6 +106,14 @@ function myData:GoDown()
   self.save.days[1][2] = self.save.days[1][2] + 1
   loadsave.saveTable(self.save,"data.json",system.DocumentsDirectory)
 
+end
+
+if myData.save == nil then
+
+	myData:Reset()
+
+else
+	myData:ShiftDays()
 end
 
 return myData

@@ -132,7 +132,7 @@ function scene:create( event )
 	background:setFillColor( 0.15 )
 
 	-- create some text
-	local title = display.newText( "app name", display.contentCenterX, 25, native.systemFont, 32 )
+	local title = display.newText( "brainwaves", display.contentCenterX, 25, native.systemFont, 32 )
 	title:setFillColor( 1 )
 	local face = display.newImage(imgDir.."headBase.png",display.contentCenterX,130)
 	faceGood = display.newImage(imgDir.."headGood.png",display.contentCenterX,130)
@@ -141,7 +141,7 @@ function scene:create( event )
 	faceBad.alpha = 0.0
 	faceEmote = display.newImage(imgDir.."0.png",display.contentCenterX,140)
 	strData = display.newText(tostring(myData:NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
-
+	UpdateFace(myData:NormalizeData())
 
 	-- all objects must be added to group (e.g. self.view)
 	sceneGroup:insert( background )
@@ -162,6 +162,9 @@ function scene:show( event )
 
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
+		local temp = myData:NormalizeData()
+		UpdateFace(temp)
+		strData.text = tostring(temp)
 		composer.getVariable("tBar"):setSelected(1)
 	elseif phase == "did" then
 		-- Called when the scene is now on screen
