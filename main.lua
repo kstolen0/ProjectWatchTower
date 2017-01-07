@@ -10,11 +10,35 @@ display.setStatusBar( display.DefaultStatusBar )
 local widget = require "widget"
 local composer = require "composer"
 local loadsave = require("loadsave")
+local notifications = require("plugin.notifications")
+local data = require("MyData")
 imgDir = "Images/" -- Prep the imageDirectory
 
+local options = {
+	alert = data:GetToday(),
+	sound = "alarm.caf",
+	custom = {foo = "bar" }
+}
 
+local now = os.time()
+local later = os.date("*t")
+later.hour = 22
+later.min = 0
+later.sec = 0
+local laterTime = os.time(later)
+local diff = laterTime - now
+if diff < 0 then
+	diff = diff + (60*60*24)
+end
+print(diff)
+local notif1 = notifications.scheduleNotification(diff,options)
 
-
+local onNotification = function( event )
+	print( event.name )
+	if( event.custom ) then
+		print(event.custom.foo)
+	end
+end
 
 -- event listeners for tab buttons:
 local function onFirstView( event )

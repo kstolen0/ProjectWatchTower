@@ -5,6 +5,13 @@
 
 settings =
 {
+	plugins =
+    {
+        ["plugin.notifications"] =
+        {
+            publisherId = "com.coronalabs",
+        },
+    },
 	orientation =
 	{
 		-- Supported values for orientation:
@@ -13,7 +20,7 @@ settings =
 		default = "portrait",
 		supported = { "portrait", },
 	},
-	
+
 	excludeFiles =
 	{
 		-- Include only the necessary icon files on each platform
@@ -54,15 +61,23 @@ settings =
 			},
 		},
 	},
-	
+
 	--
 	-- Android Section
 	--
 	android =
 	{
-		usesPermissions =
-		{
-			"android.permission.INTERNET",
-		},
+		permissions =
+			{
+					{ name = ".permission.C2D_MESSAGE", protectionLevel = "signature" },
+			},
+			usesPermissions =
+			{
+					"android.permission.INTERNET",
+					"android.permission.GET_ACCOUNTS",
+					"android.permission.RECEIVE_BOOT_COMPLETED",
+					"com.google.android.c2dm.permission.RECEIVE",
+					".permission.C2D_MESSAGE",
+			},
 	},
 }

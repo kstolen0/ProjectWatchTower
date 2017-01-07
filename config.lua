@@ -8,10 +8,10 @@ application =
 	content =
 	{
 		width = 320,
-		height = 480, 
+		height = 480,
 		scale = "letterBox",
 		fps = 30,
-		
+
 		--[[
 		imageSuffix =
 		{
@@ -20,4 +20,12 @@ application =
 		},
 		--]]
 	},
+
+	notification =
+    {
+        google =
+        {
+            projectNumber = "3982849975315"
+        },
+    }
 }

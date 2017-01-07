@@ -24,9 +24,21 @@ local function resetEvent( event )
 	end
 end
 
+local function NextDayEvent( event )
+	if event.phase == "ended" then
+		myData:ShiftDays(1)
+		myData:PrintWeekData()
+		composer.gotoScene( "view2",options)
+	end
+
+end
+
+
 local btnReset = widget.newButton(	{
-			x = display.contentCenterX,
+			x = display.contentWidth-60,
 			y = display.contentHeight - 100,
+			width = 80,
+			height = 40,
 			id = "btnReset",
 			label = "RESET",
 			onEvent = resetEvent,
@@ -35,6 +47,18 @@ local btnReset = widget.newButton(	{
 
 	}
 )
+
+local btnPushDay = widget.newButton({
+	x = 60,
+	y = display.contentHeight - 100,
+	width = 90,
+	height = 40,
+	id = "btnDay",
+	label = "Next Day",
+	onEvent = NextDayEvent,
+	shape = "rect",
+	fillColor = {default={0.55},over={0.6}},
+})
 function scene:create( event )
 	local sceneGroup = self.view
 
@@ -89,6 +113,7 @@ function scene:create( event )
 	sceneGroup:insert( h4 )
 
 	sceneGroup:insert( btnReset )
+	sceneGroup:insert( btnPushDay )
 
 end
 
