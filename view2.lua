@@ -13,6 +13,8 @@ local lblTotalVal
 local lblGoodWeekVal
 local lblBadWeekVal
 local myData = require("MyData")
+local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+background:setFillColor( 0.15 )	-- dark
 
 local function resetEvent( event )
 	if event.phase == "ended" then
@@ -59,12 +61,12 @@ local btnPushDay = widget.newButton({
 	shape = "rect",
 	fillColor = {default={0.55},over={0.6}},
 })
+
+
+
 function scene:create( event )
 	local sceneGroup = self.view
 
-	-- create a dark background to fill screen
-	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 0.15 )	-- dark
 
 	local lblTotalGood = display.newText("total good entries",75,25,native.systemFont,16)
 	local goodVal = tostring(myData.save.good)
@@ -123,6 +125,7 @@ function scene:show( event )
 
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
+
 		composer.getVariable("tBar"):setSelected(2)
 		local wGood
 		local wBad
@@ -196,14 +199,23 @@ function scene:destroy( event )
 	-- e.g. remove display objects, remove touch listeners, save state, etc.
 end
 
-function scTouch( event )
+
+local function scTouch( event )
 
 	if event.phase == "moved" then
-		if event.x - event.xStart > 50 then
+		if event.x - event.xStart < -50 then
+			local options = {
+				effect = "slideLeft"
+			}
+			composer.gotoScene( "trophies",options)
+			SCROLLING = true
+
+		elseif event.x - event.xStart > 50 then
 			local options = {
 				effect = "slideRight"
 			}
-			composer.gotoScene( "view1",options)
+			composer.gotoScene("view1",options)
+			SCROLLING = true
 		end
 	end
 end
@@ -215,7 +227,9 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-Runtime:addEventListener("touch", scTouch )
+background:addEventListener("touch",scTouch)
+
+
 -----------------------------------------------------------------------------------------
 
 return scene

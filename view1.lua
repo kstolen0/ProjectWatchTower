@@ -13,6 +13,8 @@ local faceGood
 local faceBad
 local faceEmote
 local myData = require("MyData")
+local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
+background:setFillColor( 0.15 )
 
 function UpdateFace(val)
 
@@ -119,6 +121,27 @@ local GoodBtn = widget.newButton {
 	set = false
 }
 
+local function scTouch( event )
+
+	if event.phase == "moved" then
+		if event.x - event.xStart < -50 then
+			local options = {
+				effect = "slideLeft"
+			}
+			composer.gotoScene( "view2",options)
+			SCROLLING = true
+
+		elseif event.x - event.xStart > 50 then
+			local options = {
+				effect = "slideRight"
+			}
+			composer.gotoScene("trophies",options)
+			SCROLLING = true
+		end
+	end
+
+end
+
 function scene:create( event )
 	local sceneGroup = self.view
 
@@ -126,10 +149,6 @@ function scene:create( event )
 	--
 	-- INSERT code here to initialize the scene
 	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
-
-	-- create a dark background to fill screen
-	local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
-	background:setFillColor( 0.15 )
 
 	-- create some text
 	local title = display.newText( "brainwaves", display.contentCenterX, 25, native.systemFont, 32 )
@@ -162,6 +181,7 @@ function scene:show( event )
 
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
+
 		local temp = myData:NormalizeData()
 		UpdateFace(temp)
 		strData.text = tostring(temp)
@@ -197,17 +217,7 @@ function scene:destroy( event )
 	-- e.g. remove display objects, remove touch listeners, save state, etc.
 end
 
-function scTouch( event )
 
-	if event.phase == "moved" then
-		if event.x - event.xStart < -50 then
-			local options = {
-				effect = "slideLeft"
-			}
-			composer.gotoScene( "view2",options)
-		end
-	end
-end
 ---------------------------------------------------------------------------------
 
 -- Listener setup
@@ -215,7 +225,7 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-Runtime:addEventListener("touch", scTouch )
+background:addEventListener("touch", scTouch )
 -----------------------------------------------------------------------------------------
 
 return scene
