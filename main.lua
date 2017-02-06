@@ -15,6 +15,24 @@ local data = require("MyData")
 imgDir = "Images/" -- Prep the imageDirectory
 SCROLLING = false
 
+local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
+
+if trophies == nil then
+
+  trophies = {}
+	temp = require("Trophy")
+	trophies[1] = temp:SetTrophy("name","desc",2,10,false,"img")
+	trophies[2] = temp:SetTrophy("two","ThisOne",2,20,false,"img2")
+	trophies[3] = temp:SetTrophy("half", "We're half way tehre",5,10,false,"img")
+	loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
+
+
+end
+
+--trophies = nil
+--loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
+
+
 notifications.cancelNotification()
 
 -- event listeners for tab buttons:

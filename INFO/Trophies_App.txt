@@ -1,0 +1,66 @@
+---
+	[first positive entry]
+	
+---
+	[Ten Positive Entries]
+	
+---
+	[Fifty Positive Entries]
+	
+---
+	[One Hundred Positive Entries]
+	
+---
+	[Five Hundred Positive Entries]
+	
+---
+	[One Thousand Positive Entries]
+	
+---
+	[Active Seven Days In a Row]
+	
+---
+	[Ten Consecutive Positive Entries]
+	
+---
+	[More Positive Entries than Negative Entries Each Day for Seven Days]
+	
+---	
+	[Fifty More Positive Entries than Negative Entries]
+	
+---
+	[One Hundred More Positive Entries than Negative Entries]
+	
+---
+	[One Hundred Entries]
+
+---
+	[Two Hundred Entries]
+	
+---
+	[Five Hundred Entries]
+	
+---	
+	[One Thousand Entries]
+	
+---
+	[One Thousand Five Hundred Entries]
+	
+---
+	[Two Thousand Entries]
+	
+---
+	[Nine Thousand and One Entries]
+
+---
+	[No Negative Entries For One Day]
+
+---
+	[No Negative Entries For Three Days]
+	
+---
+	[No Negative Entries For Seven Days]
+	
+---
+	[]
+	

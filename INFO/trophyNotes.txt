@@ -1,0 +1,9 @@
+
+> Trophy Object
+	-	Name
+	-	Desc
+	-	Counter
+	-	Total
+	-	isComplete
+	-	img
+	
