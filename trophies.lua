@@ -25,6 +25,19 @@ function scene:create( event )
   sceneGroup:insert( background )
   sceneGroup:insert( title )
 
+  scroller = widget.newScrollView(
+  {
+    top = 64,
+    width = display.contentWidth,
+    height = display.contentHeight - 120,
+    --scrollHeight = 500,
+    horizontalScrollDisabled = true,
+    hideBackground = true,
+    length = 0,
+  }
+  )
+
+  sceneGroup:insert( scroller )
 
 
 end
@@ -34,21 +47,11 @@ function scene:show( event )
 
   if event.phase == "will" then
 
+
+
     composer.getVariable("tBar"):setSelected(3)
     local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
 
-    scroller = widget.newScrollView(
-    {
-      top = 64,
-      width = display.contentWidth,
-      height = display.contentHeight - 120,
-      --scrollHeight = 500,
-      horizontalScrollDisabled = true,
-      hideBackground = true,
-    }
-    )
-
-    sceneGroup:insert( scroller )
 
     for i,a in ipairs(trophies) do
 
@@ -78,7 +81,8 @@ function scene:show( event )
         tDesc:setFillColor(0.4)
         tImg.alpha = 0.2
       end
-
+      --scroller.length = scroller.length + 1
+      --print(i)
     end
 
 
@@ -94,8 +98,12 @@ function scene:hide( event )
 		--
 		-- INSERT code here to pause the scene
 		-- e.g. stop timers, stop animation, unload sounds, etc.)
+
 	elseif phase == "did" then
-		scroller:removeSelf()
+      --print(scroller.length)
+
+
+
 	end
 end
 

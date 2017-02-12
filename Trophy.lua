@@ -101,8 +101,8 @@ function NegUpdate(obj, data, pos)
     obj.count = 0
     return obj
   end
-
-  if data[2][1] > 0 and data[2][2] == 0 then
+  local days = data.days
+  if (days[2][1] > 0 and days[2][2] == 0) then
     obj = AddOne(obj) -- Add one to obj count
   else
     obj.count = 0
@@ -112,9 +112,11 @@ end
 
   --  Function to
 function SevenDaysUpdate(obj, data)
-
-  if data[2][1] > 0 or data[2][2] > 0 then
+  local days = data.days
+  if days[2][1] > 0 or days[2][2] > 0 or data.good + data.bad == 1 then
     obj = AddOne(obj)
+  else
+    obj.count = 0
   end
   return obj
 end
@@ -129,11 +131,13 @@ function ConsecEntry(obj,pos)
 end
 
 function GoodWeek(obj,data)
-    if data[2][1] > data[2][2] then
+  local days = data.days
+    if days[2][1] > days[2][2] or data.good + data.bad == 1 then
       obj = AddOne(obj)
     else
       obj.count = 0
     end
+    return obj
 end
 
 function trophy:UpdateTrophies(trophies, myData, pos)
@@ -153,11 +157,11 @@ function trophy:UpdateTrophies(trophies, myData, pos)
         a = ConsecEntry(a, pos)
       elseif myData:IsFirstEntry() or not pos then
         if  a.code == "neg" then    --  d
-            a = NegUpdate(a,data.days,pos)
-        elseif a.code == "7days" then
-          a = SevenDaysUpdate(a,data.days)
-        elseif a.code == "7daysMore" then
-          a = GoodWeek(a,data.days)
+            a = NegUpdate(a,data,pos)
+        elseif a.code == "7days" and myData:IsFirstEntry() then
+          a = SevenDaysUpdate(a,data)
+        elseif a.code == "7daysMore" and myData:IsFirstEntry() then
+          a = GoodWeek(a,data)
         end   --  d
       end   --  c
     end   --  b
