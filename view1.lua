@@ -83,6 +83,13 @@ function GoUp(event)
 	local temp = myData:NormalizeData()
 	UpdateFace(temp)
 	strData.text = tostring(temp)
+
+	local temp = require "Trophy"
+	local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
+	trophies = temp:UpdateTrophies(trophies,myData,true)
+	--print(myData.save.days[2][1])
+	loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
+
  end
 end
 
@@ -93,6 +100,11 @@ function GoDown(event)
 		local temp = myData:NormalizeData()
 		UpdateFace(temp)
 		strData.text = tostring(temp)
+
+		local temp = require "Trophy"
+		local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
+		trophies = temp:UpdateTrophies(trophies,myData,false)
+		loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
 	end
 
 end

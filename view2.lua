@@ -7,6 +7,8 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
+local loadsave = require("loadsave")
+
 local lblGoodVal
 local lblBadVal
 local lblTotalVal
@@ -19,6 +21,8 @@ background:setFillColor( 0.15 )	-- dark
 local function resetEvent( event )
 	if event.phase == "ended" then
 		myData:Reset()
+		local trophies = require "Trophy"
+		loadsave.saveTable(trophies:CreateTrophies(),"trophies.json",system.DocumentsDirectory)
 		local options = {
 			effect = "slideLeft"
 		}

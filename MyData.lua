@@ -37,6 +37,18 @@ function myData:GetToday()
   return msg
 end
 
+function myData:IsFirstEntry()
+  days = self.save.days
+
+  if days[1][1] == 1 and days[1][2] == 0 then
+    return true
+  elseif days[1][1] == 0 and days[1][2] == 1 then
+    return true
+  end
+
+  return false
+end
+
 function myData:ShiftDays(n)
   if n == nil then
     n = 0

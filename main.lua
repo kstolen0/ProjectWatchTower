@@ -19,19 +19,17 @@ local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
 
 if trophies == nil then
 
-  trophies = {}
-	temp = require("Trophy")
-	trophies[1] = temp:SetTrophy("name","desc",2,10,false,"img")
-	trophies[2] = temp:SetTrophy("two","ThisOne",2,20,false,"img2")
-	trophies[3] = temp:SetTrophy("half", "We're half way tehre",5,10,false,"img")
+  temp = require("Trophy")
+  trophies = temp:CreateTrophies()
+  
 	loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
 
 
 end
-
---trophies = nil
---loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
-
+--[[
+trophies = nil
+loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
+--]]
 
 notifications.cancelNotification()
 

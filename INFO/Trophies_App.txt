@@ -1,66 +1,65 @@
----
+Beginning Of A Good Thing
 	[first positive entry]
-	
----
+
+In For A Penny. . .
 	[Ten Positive Entries]
-	
----
+
+In For A Pound
 	[Fifty Positive Entries]
-	
----
+
+100 High Fives For You!
 	[One Hundred Positive Entries]
-	
----
+
+500 High Fives For You!
 	[Five Hundred Positive Entries]
-	
----
+
+All The High Fives!
 	[One Thousand Positive Entries]
-	
----
+
+Power User
 	[Active Seven Days In a Row]
-	
----
+
+Zero Temptation
 	[Ten Consecutive Positive Entries]
-	
----
+
+A Good Week
 	[More Positive Entries than Negative Entries Each Day for Seven Days]
-	
----	
+
+50 Shades Of Awesome!
 	[Fifty More Positive Entries than Negative Entries]
-	
----
+
+100 Shades Of Awesome!
 	[One Hundred More Positive Entries than Negative Entries]
-	
----
+
+Amateur Button Pusher
 	[One Hundred Entries]
 
----
+Attentive Button Pusher
 	[Two Hundred Entries]
-	
----
+
+Disciplined Button Pusher
 	[Five Hundred Entries]
-	
----	
+
+Expert Button Pusher
 	[One Thousand Entries]
-	
----
+
+Master Button Pusher
 	[One Thousand Five Hundred Entries]
-	
----
+
+Buttons Are Fun!
 	[Two Thousand Entries]
-	
----
+
+Over 9000!
 	[Nine Thousand and One Entries]
 
----
+Not Today, Friendo
 	[No Negative Entries For One Day]
 
----
+Can't Fool Me Often
 	[No Negative Entries For Three Days]
-	
----
+
+Can't fool Me Ever
 	[No Negative Entries For Seven Days]
-	
+
 ---
 	[]
-	
