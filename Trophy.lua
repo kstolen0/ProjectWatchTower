@@ -21,35 +21,35 @@ function trophy:CreateTrophies()
   trophies = {}
 
   --  Trophies for positive entries
-  trophies[1] = self:SetTrophy("Beginning Of A Good Thing","First positive entry",0,1,false,"TrophyTemp.png","pos")
-  trophies[2] = self:SetTrophy("In For A Penny. . . ","Ten positive entries",0,10,false,"TrophyTemp.png","pos")
-  trophies[3] = self:SetTrophy("In For A Pound", "Fifty positive entries",0,50,false,"TrophyTemp.png","pos")
-  trophies[4] = self:SetTrophy("100 High Fives For You!", "One hundred positive entries",0,100,false,"TrophyTemp.png","pos")
-  trophies[5] = self:SetTrophy("500 High Fives For You!", "Five hundred positive entries",0,500,false,"TrophyTemp.png","pos")
-  trophies[6] = self:SetTrophy("All The High Fives", "One thousand positive entries",0,1000,false,"TrophyTemp.png","pos")
+  trophies[1] = self:SetTrophy("Beginning Of A Good Thing","First positive entry",0,1,false,"1Pos.png","pos")
+  trophies[2] = self:SetTrophy("In For A Penny. . . ","Ten positive entries",0,10,false,"10Pos.png","pos")
+  trophies[3] = self:SetTrophy("In For A Pound", "Fifty positive entries",0,50,false,"50Pos.png","pos")
+  trophies[4] = self:SetTrophy("100 High Fives For You!", "One hundred positive entries",0,100,false,"100Pos.png","pos")
+  trophies[5] = self:SetTrophy("500 High Fives For You!", "Five hundred positive entries",0,500,false,"500Pos.png","pos")
+  trophies[6] = self:SetTrophy("All The High Fives", "One thousand positive entries",0,1000,false,"1000Pos.png","pos")
 
   --  Unique Trophies
-  trophies[7] = self:SetTrophy("Power User", "Active for seven days in a row",0,7,false,"TrophyTemp.png","7days")
-  trophies[8] = self:SetTrophy("Zero Temptation", "Ten consecutive positive entries",0,10,false,"TrophyTemp.png","tenRow")
-  trophies[9] = self:SetTrophy("A Good Week", "More positive than negative entries \nfor seven days",0,7,false,"TrophyTemp.png","7daysMore")
+  trophies[7] = self:SetTrophy("Power User", "Active for seven days in a row",0,7,false,"pwrUsr.png","7days")
+  trophies[8] = self:SetTrophy("Zero Temptation", "Ten consecutive positive entries",0,10,false,"10Consec.png","tenRow")
+  trophies[9] = self:SetTrophy("A Good Week", "More positive than negative entries \nfor seven days",0,7,false,"GoodWeek.png","7daysMore")
 
   --  Count Difference between pos/neg
-  trophies[10] = self:SetTrophy("50 Shades Of Awesome", "Fifty more positive entries than \nnegative entries",0,50,false,"TrophyTemp.png","diff")
-  trophies[11] = self:SetTrophy("100 Shades Of Awesome", "One hundred more positive entries than \nnegative entries",0,100,false,"TrophyTemp.png","diff")
+  trophies[10] = self:SetTrophy("50 Shades Of Awesome", "Fifty more positive entries than \nnegative entries",0,50,false,"plus50.png","diff")
+  trophies[11] = self:SetTrophy("100 Shades Of Awesome", "One hundred more positive entries than \nnegative entries",0,100,false,"plus100.png","diff")
 
   --  Count Number Entries
-  trophies[12] = self:SetTrophy("Amateur Button Pusher", "One hundred entries",0,100,false,"TrophyTemp.png","tot")
-  trophies[13] = self:SetTrophy("Attentive Button Pusher", "Two hundred entries",0,200,false,"TrophyTemp.png","tot")
-  trophies[14] = self:SetTrophy("Disciplined Button Pusher", "Five hundred entries",0,500,false,"TrophyTemp.png","tot")
-  trophies[15] = self:SetTrophy("Expert Button Pusher", "One thousand entries",0,1000,false,"TrophyTemp.png","tot")
-  trophies[16] = self:SetTrophy("Master Button Pusher", "One thousand five hundred entries",0,1500,false,"TrophyTemp.png","tot")
-  trophies[17] = self:SetTrophy("Buttons Are Fun!", "Two thousand entries",0,2000,false,"TrophyTemp.png","tot")
-  trophies[18] = self:SetTrophy("Over 9000!", "Nine thousand and one entries",0,9001,false,"TrophyTemp.png","tot")
+  trophies[12] = self:SetTrophy("Amateur Button Pusher", "One hundred entries",0,100,false,"amateur.png","tot")
+  trophies[13] = self:SetTrophy("Attentive Button Pusher", "Two hundred entries",0,200,false,"attentive.png","tot")
+  trophies[14] = self:SetTrophy("Disciplined Button Pusher", "Five hundred entries",0,500,false,"disciplined.png","tot")
+  trophies[15] = self:SetTrophy("Expert Button Pusher", "One thousand entries",0,1000,false,"expert.png","tot")
+  trophies[16] = self:SetTrophy("Master Button Pusher", "One thousand five hundred entries",0,1500,false,"master.png","tot")
+  trophies[17] = self:SetTrophy("Buttons Are Fun!", "Two thousand entries",0,2000,false,"fun.png","tot")
+  trophies[18] = self:SetTrophy("Over 9000!", "Nine thousand and one entries",0,9001,false,"ovr9K.png","tot")
 
   --  Count lack of negative entries
-  trophies[19] = self:SetTrophy("Not Today, Friendo", "No negative entries for one day",0,1,false,"TrophyTemp.png","neg")
-  trophies[20] = self:SetTrophy("Can't Fool Me Often", "No negative entries for three days",0,3,false,"TrophyTemp.png","neg")
-  trophies[21] = self:SetTrophy("Can't Fool Me Ever", "No negative entries for seven days",0,7,false,"TrophyTemp.png","neg")
+  trophies[19] = self:SetTrophy("Not Today, Friendo", "No negative entries for one day",0,1,false,"notToday.png","neg")
+  trophies[20] = self:SetTrophy("Can't Fool Me Often", "No negative entries for three days",0,3,false,"often.png","neg")
+  trophies[21] = self:SetTrophy("Can't Fool Me Ever", "No negative entries for seven days",0,7,false,"ever.png","neg")
 
   return trophies
 
