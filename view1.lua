@@ -20,8 +20,9 @@ background:setFillColor( 0.15 )
 --	function to update the emote face
 function UpdateFace(val)
 
-	local alph = math.floor(val)/100
-	local temp = ""
+	--	calculate the alpha of the color of the face (red or yellow)
+	local alph = math.floor(val)/100	--	Normalize value between -1 and 1
+	--	reset face alphas
 	faceGood.alpha = 0.0
 	faceBad.alpha = 0.0
 	if val < 0 then		--	If val is less than 0 then negate alph and assign the value to facebad, otherwise assign it to facegood
