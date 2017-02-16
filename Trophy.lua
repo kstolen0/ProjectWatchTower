@@ -1,6 +1,7 @@
 module(...,package.seeall)
 
 local trophy = {}
+local notifications = require("plugin.notifications")
 
 --  function to create an object that holds trophy data
 function trophy:SetTrophy(name, desc, count, total, comp, img, code)
@@ -55,6 +56,15 @@ function trophy:CreateTrophies()
 
 end
 
+function TrophyNotif(obj)
+
+  print(obj.name .. " IS COMPLETE!")
+  local options = {
+    alert = "Trophy Earned! - " .. obj.name,
+    sound = "alarm.caf",
+  }
+  notifications.scheduleNotification(0,options)
+end
 
 --  Function to add one to trophy count.
 function AddOne(obj)
@@ -65,7 +75,7 @@ function AddOne(obj)
 
     --  if this is the first time completing trophy, notify user
     if obj.isComplete == false then
-      print(obj.name .. " IS COMPLETE!")
+      TrophyNotif(obj)
     end
     obj.isComplete = true
   end
@@ -81,7 +91,7 @@ function DiffUpdate(obj,diff)
       obj.count = obj.total
       --  if this is the first time completing trophy, notify user
       if obj.isComplete == false then
-        print(obj.name .. " IS COMPLETE!")
+        TrophyNotif(obj)
       end
       obj.isComplete = true
     else  --  set trophy count to diff if diff is less than total and greater than 0

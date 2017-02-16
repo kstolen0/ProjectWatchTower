@@ -4,6 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 
+--	setup libraries, scene variables
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require("widget")
@@ -16,18 +17,22 @@ local myData = require("MyData")
 local background = display.newRect( display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight )
 background:setFillColor( 0.15 )
 
+--	function to update the emote face
 function UpdateFace(val)
 
 	local alph = math.floor(val)/100
 	local temp = ""
 	faceGood.alpha = 0.0
 	faceBad.alpha = 0.0
-	if val < 0 then
+	if val < 0 then		--	If val is less than 0 then negate alph and assign the value to facebad, otherwise assign it to facegood
 		faceBad.alpha = -alph
 	else
 		 faceGood.alpha = alph
 	end
 
+	local temp = ""
+
+	--	Very ugly if statements, Consider cleaning up into incremental values
 	if val <= -90 then
 			temp = "-100"
 	elseif val <= -85 then
@@ -68,6 +73,7 @@ function UpdateFace(val)
 		temp = "10"
 	end
 
+	--	reset the face emote and update into new image
 	faceEmote:removeSelf()
 	faceEmote = nil
 	faceEmote = display.newImage(imgDir..temp..".png",display.contentCenterX,140)
@@ -76,31 +82,34 @@ function UpdateFace(val)
 end
 
 
+--	what happens when the green button is pressed
 function GoUp(event)
 
 	if event.phase == "ended" then
-	myData:GoUp()
+	myData:GoUp()	--	add one to good data
 	local temp = myData:NormalizeData()
 	UpdateFace(temp)
-	strData.text = tostring(temp)
+	strData.text = tostring(temp)	--	update the number text
 
+	--	update the trophy data
 	local temp = require "Trophy"
 	local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
 	trophies = temp:UpdateTrophies(trophies,myData,true)
-	--print(myData.save.days[2][1])
 	loadsave.saveTable(trophies,"trophies.json",system.DocumentsDirectory)
 
  end
 end
 
+--	what happens when the red button is pressed
 function GoDown(event)
 
 	if event.phase == "ended" then
-		myData:GoDown()
+		myData:GoDown()	--	add one to bad data
 		local temp = myData:NormalizeData()
 		UpdateFace(temp)
-		strData.text = tostring(temp)
+		strData.text = tostring(temp)		--	update the number text
 
+		--	update the trophy data
 		local temp = require "Trophy"
 		local trophies = loadsave.loadTable("trophies.json",system.DocumentsDirectory)
 		trophies = temp:UpdateTrophies(trophies,myData,false)
@@ -109,6 +118,7 @@ function GoDown(event)
 
 end
 
+--	Create the bad and good buttons
 local BadBtn = widget.newButton {
 
 	top = display.contentCenterY + 120,
@@ -133,6 +143,7 @@ local GoodBtn = widget.newButton {
 	set = false
 }
 
+--	create touch event for swiping between scenes
 local function scTouch( event )
 
 	if event.phase == "moved" then
@@ -141,14 +152,14 @@ local function scTouch( event )
 				effect = "slideLeft"
 			}
 			composer.gotoScene( "view2",options)
-			SCROLLING = true
+
 
 		elseif event.x - event.xStart > 50 then
 			local options = {
 				effect = "slideRight"
 			}
 			composer.gotoScene("trophies",options)
-			SCROLLING = true
+
 		end
 	end
 
@@ -157,24 +168,22 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-	-- Called when the scene's view does not exist.
-	--
-	-- INSERT code here to initialize the scene
-	-- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
 
 	-- create some text
 	local title = display.newText( "brainwaves", display.contentCenterX, 25, native.systemFont, 32 )
 	title:setFillColor( 1 )
+	--	add the face
 	local face = display.newImage(imgDir.."headBase.png",display.contentCenterX,130)
 	faceGood = display.newImage(imgDir.."headGood.png",display.contentCenterX,130)
 	faceGood.alpha = 0.0
 	faceBad = display.newImage(imgDir.."headBad.png",display.contentCenterX,130)
 	faceBad.alpha = 0.0
 	faceEmote = display.newImage(imgDir.."0.png",display.contentCenterX,140)
+	--	add the number
 	strData = display.newText(tostring(myData:NormalizeData()),display.contentCenterX,display.contentCenterY+30,native.systemFont,46)
 	UpdateFace(myData:NormalizeData())
 
-	-- all objects must be added to group (e.g. self.view)
+	-- all objects must be added to group
 	sceneGroup:insert( background )
 	sceneGroup:insert( title )
 	sceneGroup:insert( face )
@@ -194,6 +203,7 @@ function scene:show( event )
 	if phase == "will" then
 		-- Called when the scene is still off screen and is about to move on screen
 
+		--	update the face, number and tabbar 
 		local temp = myData:NormalizeData()
 		UpdateFace(temp)
 		strData.text = tostring(temp)

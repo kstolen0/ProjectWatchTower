@@ -1,9 +1,11 @@
 module(...,package.seeall)
+--  Add libraries and delcare important variables
 local loadsave = require("loadsave")
 
 local myData = {}
 myData.save = loadsave.loadTable("data.json",system.DocumentsDirectory)
 
+--  function to reset the data to its initial state (0 out)
 function myData:Reset()
 
   self.save = {
@@ -18,25 +20,30 @@ function myData:Reset()
       {0,0},
       {0,0},
     },
-    lastEntry = os.date("*t").yday,
+    lastEntry = os.date("*t").yday,   --  set last entry to today (yday means year day)
   }
 
-  loadsave.saveTable(myData.save,"data.json",system.DocumentsDirectory)
+  loadsave.saveTable(myData.save,"data.json",system.DocumentsDirectory) -- save to json file
 end
 
+
+--  return a summary of the day depending on the number of entries
 function myData:GetToday()
-  local msg = "Don't forget to make your entries for today :)"
+  local msg = "Don't forget to make your entries for today"   -- default is 0
   local temp = self.save.days[1]
 
   if (temp[1] > temp[2]) then
-    msg = "Good day today! Keep it up! :D"
+    msg = "Good day today! Keep it up!"
   elseif (temp[1] < temp[2]) then
-    msg = "Let's try and be better tomorrow :)"
+    msg = "Let's try and be better tomorrow."
+  elseif temp[1] > 0 then
+    msg = " You did well today!"
   end
 
   return msg
 end
 
+--  function to find out if this is the first entry of the day (required for some trophy evaluation)
 function myData:IsFirstEntry()
   days = self.save.days
 
@@ -49,7 +56,8 @@ function myData:IsFirstEntry()
   return false
 end
 
-function myData:ShiftDays(n)
+--  Function to shift the days entry data for each day the app hasn't been used
+function myData:ShiftDays(n)    --  add a variable for testing
   if n == nil then
     n = 0
   end
@@ -66,9 +74,10 @@ function myData:ShiftDays(n)
 		end
 	end
 
-  self.save.lastEntry = os.date("*t").yday
-  loadsave.saveTable(myData.save,"data.json",system.DocumentsDirectory)
+  self.save.lastEntry = os.date("*t").yday    --  reset the last entry to today
+  loadsave.saveTable(myData.save,"data.json",system.DocumentsDirectory)   -- update json file
 end
+
 
 --return good and bad entries from the last week
 function myData:GetWeekData()
@@ -88,12 +97,14 @@ function myData:GetWeekData()
 
 end
 
+--  function to print data for each day from the last week
 function myData:PrintWeekData()
   for i,v in ipairs(self.save.days) do
     print(unpack(v))
   end
   print("[---]")
 end
+
 
 --  return the given days good and bad entries
 function myData:GetDayData(i)
@@ -102,46 +113,48 @@ function myData:GetDayData(i)
 
 end
 
-
+--  function to normalize the net between good and bad entries
 function myData:NormalizeData()
 
   local good
   local bad
-  good, bad = self:GetWeekData()
-  total = good - bad
-  if total == 0 then
+  good, bad = self:GetWeekData()  --  get the last week's data
+  total = good - bad  --  get the net value
+  if total == 0 then  -- exit if they're equal
     return 0
   end
-  total = good + bad
-  local nGood = good / total * 100
-  nGood = math.round(nGood*100)*0.01
-  local nBad = bad / total * 100
+
+  total = good + bad  --  get the sum
+  local nGood = good / total * 100  --  get the percentage of good
+  nGood = math.round(nGood*100)*0.01  --  scale to number between 0 and 100 to 2 decimal places
+  local nBad = bad / total * 100  --  same as above
   nBad = math.round(nBad*100)*0.01
-  local val = nGood - nBad
+  local val = nGood - nBad  --  get the net value of the percentages (number between -100 and 100)
 
   return val
 end
 
+--  function to update data when a positive entry has been made
 function myData:GoUp()
   self:ShiftDays()
-  self.save.good = self.save.good + 1
-  self.save.days[1][1] = self.save.days[1][1] + 1
-  loadsave.saveTable(self.save,"data.json",system.DocumentsDirectory)
-  self:PrintWeekData()
-  --loadsave.saveTable(nil,"data.json",system.DocumentsDirectory)
+  self.save.good = self.save.good + 1 --  add 1 to total good entries
+  self.save.days[1][1] = self.save.days[1][1] + 1 --  add 1 to today's good entries
+  loadsave.saveTable(self.save,"data.json",system.DocumentsDirectory) --  update json file
+  self:PrintWeekData()  --  print data to console
 
 end
 
+--  function to update data when negative entry has been made
 function myData:GoDown()
   self:ShiftDays()
-  self.save.bad = self.save.bad + 1
-  self.save.days[1][2] = self.save.days[1][2] + 1
-  loadsave.saveTable(self.save,"data.json",system.DocumentsDirectory)
-  self:PrintWeekData()
-
+  self.save.bad = self.save.bad + 1 --  add 1 to total bad entries
+  self.save.days[1][2] = self.save.days[1][2] + 1 --  add 1 to today's bad entries
+  loadsave.saveTable(self.save,"data.json",system.DocumentsDirectory) --  update json file
+  self:PrintWeekData()  --  print data to console
 
 end
 
+--  if create data structure if nothing exists in the json file, otherwise update data to today 
 if myData.save == nil then
 
 	myData:Reset()
