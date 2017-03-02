@@ -61,7 +61,7 @@ function TrophyNotif(obj)
   print(obj.name .. " IS COMPLETE!")
   local options = {
     alert = "Trophy Earned! - " .. obj.name,
-    sound = "alarm.caf",
+
   }
   notifications.scheduleNotification(0,options)
 end

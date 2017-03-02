@@ -88,7 +88,6 @@ function scene:show( event )
       tDesc.anchorX = 0
       local tImg = display.newImage(imgDir..a.img,display.contentWidth - 42, 14 + 70*i) --  trophy image
 
-
       scroller:insert(tbg)
       scroller:insert(tName)
       scroller:insert(tDesc)
@@ -104,7 +103,8 @@ function scene:show( event )
       if a.isComplete == false then -- darken image if it's not complete
         tName:setFillColor(0.4)
         tDesc:setFillColor(0.4)
-        tImg.alpha = 0.2
+        tImg.fill.effect =  "filter.grayscale"
+        tImg.alpha = 0.5
       end
       --scroller.length = scroller.length + 1
       --print(i)
@@ -133,7 +133,7 @@ function scene:hide( event )
 	end
 end
 
---  function for swiping between pages 
+--  function for swiping between pages
 local function scTouch( event )
 
   if event.phase == "moved" then

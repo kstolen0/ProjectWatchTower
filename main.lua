@@ -86,7 +86,6 @@ local function onSystemEvent( event )
 	if event.type == "applicationExit" then
 		local options = {
 			alert = data:GetToday(),   --  Get the results from today
-			sound = "alarm.caf",
 		}
 
     --  Calculate difference between now and the next 10pm
@@ -107,7 +106,6 @@ local function onSystemEvent( event )
     --  set other notification for three days from now
 		local lateOptions = {
 			alert = "It's been a while since your last entry",
-			sound = "alarm.caf",
 		}
 		local notif2 = notifications.scheduleNotification(3*60*60*24,options)
 	end

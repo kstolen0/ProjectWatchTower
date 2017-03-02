@@ -22,6 +22,7 @@ background:setFillColor( 0.15 )	-- dark
 local yDisp = 39
 
 --	function to reset data and trophies  (FOR TESTING)
+---[[
 local function resetEvent( event )
 	if event.phase == "ended" then
 		myData:Reset()
@@ -45,6 +46,7 @@ local function NextDayEvent( event )
 end
 
 --	create testing buttons
+
 local btnReset = widget.newButton(	{
 			x = display.contentWidth-60,
 			y = display.contentHeight - 100,
@@ -71,7 +73,7 @@ local btnPushDay = widget.newButton({
 	fillColor = {default={0.55},over={0.6}},
 })
 
-
+--]]
 
 
 function scene:create( event )
